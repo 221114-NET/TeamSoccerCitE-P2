@@ -30,6 +30,9 @@ CREATE TABLE ProductCategory(
 -- TODO create table for Order Details
 
 -- TODO add foreign key constraint to the Customer Session table
--- TODO add foreign key constraint to the Product table
+-- Foreign key constraint for the Product table (categories)
+ALTER TABLE Product ADD CONSTRAINT FK_CategoryId
+    FOREIGN KEY (CategoryId) REFERENCES ProductCategory (CategoryId) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 -- TODO add foreign key constriant(s) to the Cart Items table
 -- TODO add foreign key constraint to the Order Details table
