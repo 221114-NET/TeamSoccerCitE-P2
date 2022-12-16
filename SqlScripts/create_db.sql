@@ -1,0 +1,12 @@
+-- Based on the ERD for the Database, we made these SQL scripts
+-- TODO create table for Customer
+-- TODO create table for Product
+-- TODO create table for ProductCategory
+-- TODO create table for Customer Session
+-- TODO create table for Cart Items
+-- TODO create table for Order Details
+
+-- TODO add foreign key constraint to the Customer Session table
+-- TODO add foreign key constraint to the Product table
+-- TODO add foreign key constriant(s) to the Cart Items table
+-- TODO add foreign key constraint to the Order Details table
