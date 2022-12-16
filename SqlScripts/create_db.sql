@@ -25,11 +25,21 @@ CREATE TABLE ProductCategory(
     CategoryName VARCHAR(50) NOT NULL
 );
 
--- TODO create table for Customer Session
+-- Create table for Customer Session
+CREATE TABLE CustomerSession (
+    SessionId VARCHAR(36) PRIMARY KEY,
+    CustomerId VARCHAR(36) NOT NULL UNIQUE,
+    TimeOfLastAction DATETIME NOT NULL,
+    CartTotal FLOAT(53) NOT NULL
+);
+
 -- TODO create table for Cart Items
 -- TODO create table for Order Details
 
--- TODO add foreign key constraint to the Customer Session table
+-- Foreign key constraint for the Customer Session table (customer id)
+ALTER TABLE CustomerSession ADD CONSTRAINT FK_CustomerId
+    FOREIGN KEY (CustomerId) REFERENCES Customer (CustomerId) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 -- Foreign key constraint for the Product table (categories)
 ALTER TABLE Product ADD CONSTRAINT FK_CategoryId
     FOREIGN KEY (CategoryId) REFERENCES ProductCategory (CategoryId) ON DELETE NO ACTION ON UPDATE NO ACTION;

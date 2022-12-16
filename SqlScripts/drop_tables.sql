@@ -11,9 +11,11 @@ DROP TABLE Customer;
 -- Drop product table
 DROP TABLE Product;
 
--- TODO drop product category table
+-- Drop product category table
 DROP TABLE ProductCategory;
 
--- TODO drop customer session table
+-- Drop customer session table
+DROP TABLE CustomerSession;
+
 -- TODO drop cart item table
 -- TODO drop order details tabe
