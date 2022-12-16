@@ -1,5 +1,5 @@
 -- Based on the ERD for the Database, we made these SQL scripts
--- Table for Customers
+-- TODO Table for Customers
 CREATE TABLE Customer(
     CustomerId VARCHAR(36) PRIMARY KEY,
     Email VARCHAR(50) NOT NULL UNIQUE,
@@ -8,7 +8,7 @@ CREATE TABLE Customer(
     ProfilePic VARBINARY(MAX)
 );
 
--- Table for Products
+-- TODO Table for Products
 CREATE TABLE Product(
     ProductId VARCHAR(36) PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE ProductCategory(
     CategoryName VARCHAR(50) NOT NULL
 );
 
--- Create table for Customer Session
+-- TODO Create table for Customer Session
 CREATE TABLE CustomerSession (
     SessionId VARCHAR(36) PRIMARY KEY,
     CustomerId VARCHAR(36) NOT NULL UNIQUE,
