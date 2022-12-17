@@ -1,9 +1,8 @@
 -- Drop foreign key constraint on product table
 ALTER TABLE Product DROP CONSTRAINT FK_CategoryId;
 
--- TODO drop foreign key constraint on customer session table
--- TODO drop foreign key constraint(s) on cart item table
--- TODO drop foreign key constraint on order details table
+-- Drop foreign key constraint on login session table
+ALTER TABLE LoginSession DROP CONSTRAINT FK_CustomerId;
 
 -- Drop customer table
 DROP TABLE Customer;
@@ -15,7 +14,4 @@ DROP TABLE Product;
 DROP TABLE ProductCategory;
 
 -- Drop customer session table
-DROP TABLE CustomerSession;
-
--- TODO drop cart item table
--- TODO drop order details tabe
+DROP TABLE LoginSession;
