@@ -40,5 +40,12 @@ ALTER TABLE LoginSession ADD CONSTRAINT FK_CustomerId
 ALTER TABLE Product ADD CONSTRAINT FK_CategoryId
     FOREIGN KEY (CategoryId) REFERENCES ProductCategory (CategoryId) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--------------------POPULATING ProductCategory----------------------------------
+
+
+-------------------Populating ProductCategory Table----------------------------
 INSERT INTO ProductCategory VALUES (1, 'Shoes'), (2, 'Balls'), (3, 'Jerseys');
+
+-------------------Populating Product Table------------------------------------
+INSERT INTO Product (Name, Description, Price, Quantity, CategoryId, ProductImage) VALUES('Nike Cleats', 'This is a description for shoes.', 111.99, 35, 1, NULL);
+INSERT INTO Product (Name, Description, Price, Quantity, CategoryId, ProductImage) VALUES('Soccer Ball', 'This is a description for a ball.', 19.99, 99, 2, NULL);
+INSERT INTO Product (Name, Description, Price, Quantity, CategoryId, ProductImage) VALUES('Argentina Jersey', 'This is a description for a jersey.', 34.99, 200, 3, NULL);
