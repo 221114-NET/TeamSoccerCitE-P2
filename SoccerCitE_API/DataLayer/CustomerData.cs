@@ -12,14 +12,15 @@ namespace DataLayer
     public class CustomerData : ICustomerData
     {
         private readonly string _connectionString;
+        private readonly IDataLogger _logger;
 
-        public CustomerData() {
+        public CustomerData(IDataLogger logger) {
             this._connectionString = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build().GetSection("ConnectionStrings")["SoccerCitEDB"];
+            this._logger = logger;
         }
 
         public async Task<Customer> PostCustomer(Customer newCustomer)
         {
-            //List<Customer> list = new List<Customer>();
 
             using SqlConnection connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
@@ -36,18 +37,6 @@ namespace DataLayer
 
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
-            /*while (await reader.ReadAsync())
-            {
-                int id = reader.GetInt32(0);
-                string email = reader.GetString(1);
-                string username = reader.GetString(2);
-                string password = reader.GetString(3);
-                //int profilePic = reader.GetInt32(4);
-
-                Customer tmp = new Customer(email, username, password); //, profilePic
-                //list.Add(tmp);
-            }
-            */
             await reader.ReadAsync();
             int id = reader.GetInt32(0);
             string email = reader.GetString(1);
@@ -55,14 +44,10 @@ namespace DataLayer
             string password = reader.GetString(3);
 
             await connection.CloseAsync();
-            //logger.LogInformation("Executed AddCustomer");
 
-            //return list;
-            //Customer registeredCustomer = new Customer(email, username, password);
-            //return registeredCustomer;
-            
-            //This does the same thing
-            return new Customer(email, username, password);
+            Customer registeredCustomer = new Customer(email, username, password);
+            _logger.LogRegistration(registeredCustomer);
+            return registeredCustomer;
         }
     }
 }

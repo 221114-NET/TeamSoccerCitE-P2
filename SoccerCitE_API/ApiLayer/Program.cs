@@ -18,7 +18,7 @@ public class Program
 
         builder.Services.AddScoped<ICustomerService, CustomerService>();
         builder.Services.AddScoped<ICustomerData, CustomerData>();
-        
+        builder.Services.AddSingleton<IDataLogger, DataLogger>();
 
         var app = builder.Build();
 
