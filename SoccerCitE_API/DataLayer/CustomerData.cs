@@ -35,7 +35,10 @@ namespace DataLayer
             cmd.Parameters.AddWithValue("@username", newCustomer.Username);
             cmd.Parameters.AddWithValue("@password", newCustomer.Password);
             cmd.Parameters.AddWithValue("@customerEmail", newCustomer.Email);
-            // TODO If we want to have the user register with a profile picture every time, we will have to give a profile picture in the Logic Layer
+            /* 
+            TODO If we want to have the user register with a profile picture every time, we will have to give a profile picture in the Logic Layer. 
+            Weirdness when passing nulls.
+            */ 
             cmd.Parameters.AddWithValue("@image", newCustomer.ImageData);
 
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
