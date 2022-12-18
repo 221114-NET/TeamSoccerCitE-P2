@@ -11,6 +11,11 @@ namespace DataLayer
     {
         public void LogRegistration(Customer c) {
             Console.WriteLine($"User {c.Username} registered successfully");
-        }  
+        }
+
+        public void ErrorLog(Exception e)
+        {
+            Console.WriteLine(e.ToString());
+        }
     }
 }
