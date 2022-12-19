@@ -35,10 +35,20 @@ namespace ApiLayer.Controllers
         }
 
         // Get User
-        [HttpPut]
+
+        //User Login
+        [HttpPut("Login")]
         public async Task<ActionResult<Guid>> LoginCustomer(Customer customer)
         {
             return await _iCustomerService.LoginCustomer(customer);
+        }
+
+        //User Logout
+        [HttpPut("Logout")]
+        public async Task<ActionResult<string>> LogoutCustomer(Guid sessionId)
+        {
+            await _iCustomerService.LogoutCustomer(sessionId);
+            return Ok("logout sucessful");
         }
     }
 }
