@@ -40,7 +40,7 @@ namespace DataLayer
             TODO If we want to have the user register with a profile picture every time, we will have to give a profile picture in the Logic Layer. 
             Weirdness when passing nulls.
             > Use default picture
-            */ 
+            */
             // if(newCustomer.ImageData is null) {
             //     cmd.Parameters.AddWithValue("@image", DBNull.Value);    
             // } else cmd.Parameters.AddWithValue("@image", newCustomer.ImageData);
@@ -53,7 +53,11 @@ namespace DataLayer
             string email = reader.GetString(1);
             string username = reader.GetString(2);
             string password = reader.GetString(3);
-            byte[] imageData = (byte[]) reader.GetValue(4);
+            if (!reader.IsDBNull(4))
+            {
+                byte[] imageData = (byte[])reader[4];
+            }
+            //long returnedBytes = /*(byte[])*/ reader.GetBytes(4,0,imageData, 0, 65535);
             //if(imageData.Length == 0) its null
 
             await connection.CloseAsync();
@@ -109,7 +113,7 @@ namespace DataLayer
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                using(SqlCommand command = new SqlCommand("DELETE FROM LoginSession WHERE SessionId = @sessionId",connection))
+                using (SqlCommand command = new SqlCommand("DELETE FROM LoginSession WHERE SessionId = @sessionId", connection))
                 {
                     await connection.OpenAsync();
                     command.Parameters.AddWithValue("@sessionId", sessionId);
@@ -118,7 +122,7 @@ namespace DataLayer
                         //Returns number of rows affected if we want to keep track of sucess
                         await command.ExecuteNonQueryAsync();
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         _logger.ErrorLog(e);
                     }
