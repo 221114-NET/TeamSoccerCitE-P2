@@ -10,5 +10,7 @@ namespace DataLayer
     public interface ICustomerData
     {
         Task<Customer> PostCustomer(Customer c);
+        Task<Guid> LoginCustomer(Customer c);
+        Task LogoutCustomer(Guid s);
     }
 }

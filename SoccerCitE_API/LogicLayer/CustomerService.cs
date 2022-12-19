@@ -12,24 +12,24 @@ namespace LogicLayer
     {
         // Dependency injection for data layer
         private readonly ICustomerData _iCustomerData;
-        public CustomerService(ICustomerData iCustomerData) {
+        public CustomerService(ICustomerData iCustomerData)
+        {
             this._iCustomerData = iCustomerData;
         }
 
-        public async Task<Customer> PostCustomer(Customer c) {
-            // if(c.ImageData is null) {
-            //     FileInfo defaultImage = new FileInfo("../../SoccerCitEConsole/test.png");
-            //     byte[] imageData = new byte[defaultImage.Length];
-
-            //     // Put defaultImage data into byte array using filestream
-            //     using(FileStream stream = defaultImage.OpenRead()) {
-            //         stream.Read(imageData, 0, imageData.Length);
-            //     }
-
-            //     c.ImageData = imageData;
-            // }
-            
+        public async Task<Customer> PostCustomer(Customer c)
+        {
             return await _iCustomerData.PostCustomer(c);
+        }
+
+        public async Task<Guid> LoginCustomer(Customer c)
+        {
+            return await _iCustomerData.LoginCustomer(c);
+        }
+
+        public async Task LogoutCustomer(Guid sessionId)
+        {
+            await _iCustomerData.LogoutCustomer(sessionId);   
         }
     }
 }

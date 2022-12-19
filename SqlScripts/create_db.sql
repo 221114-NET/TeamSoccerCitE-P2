@@ -31,6 +31,13 @@ CREATE TABLE LoginSession (
     CustomerId INT NOT NULL UNIQUE,
     TimeOfLastAction DATETIME NOT NULL,
 );
+--Fixing Login Session Table. Session ID changed to UNIQUEIDENTIFIER datatype(GUID), with a default value from NEWID(), and added CURRENT_TIMESTAMP default to TimeOfLastAction column --JalalD
+ALTER TABLE [dbo].[LoginSession] DROP CONSTRAINT [PK__LoginSes__C9F49290D1E6C123] --removing PK constraint in order to edit column
+ALTER TABLE LoginSession ALTER COLUMN SessionId UNIQUEIDENTIFIER NOT NULL --changing datatype to GUID type
+ALTER TABLE LoginSession ADD PRIMARY KEY (SessionId) --re adding PK constraint to column
+ALTER TABLE LoginSession ADD CONSTRAINT newGuid DEFAULT NEWID() FOR SessionId --this Default automatically adds a unique GUID when a new row is created in this table
+ALTER TABLE LoginSession ADD CONSTRAINT loginTime DEFAULT CURRENT_TIMESTAMP FOR TimeOfLastAction --this default automatically timestamps when a new row is created
+
 
 -- Foreign key constraint for the Login Session table (customer id)
 ALTER TABLE LoginSession ADD CONSTRAINT FK_CustomerId
