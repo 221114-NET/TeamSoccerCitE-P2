@@ -50,5 +50,15 @@ namespace ApiLayer.Controllers
             await _iCustomerService.LogoutCustomer(sessionId);
             return Ok("logout sucessful");
         }
+
+        [HttpGet("UserProfile")]
+        public async Task<ActionResult<object[]>> GetCustomerInfo(Guid sessionId) {
+            // result array contains Customer data, and User Profile data
+            object[] result = new object[2];
+            var custmerData = await _iCustomerService.GetCustomerInfo(sessionId);
+            result[0] = custmerData.Item1;
+            result[1] = custmerData.Item2;
+            return result;
+        }
     }
 }

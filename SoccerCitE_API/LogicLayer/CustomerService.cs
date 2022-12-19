@@ -31,5 +31,10 @@ namespace LogicLayer
         {
             await _iCustomerData.LogoutCustomer(sessionId);   
         }
+
+        public async Task<(Customer, UserProfile)> GetCustomerInfo(Guid sessionId)
+        {
+            return await _iCustomerData.GetCustomerInfo(sessionId);
+        }
     }
 }
