@@ -134,6 +134,35 @@ namespace DataLayer
             }
         }
 
+        private async Task<int> GetUserIDFromSessionId(Guid guid) {
+            int customerId = -1;
+            
+            using (SqlConnection connection = new SqlConnection(_connectionString)) {
+                string commandText = "SELECT CustomerId FROM LoginSession WHERE SessionId = @sessionId;";
+                using(SqlCommand command = new SqlCommand(commandText, connection)) {
+                    try {
+                        Task conOpen = connection.OpenAsync();
+                        command.Parameters.AddWithValue("@sessionId", guid);
+                        await conOpen;
+                        SqlDataReader reader = command.ExecuteReader();
+                        if (await reader.ReadAsync())
+                        {
+                            customerId = reader.GetInt32(0);
+                        }
+                    } catch (Exception e)
+                    {
+                        _logger.ErrorLog(e);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
+
+            return customerId;
+        }
+
         private async Task<int> GetUserIDFromDB(Customer c)
         {
             int customerId = -1; //If Return is -1, Email and/or PW incorrect
