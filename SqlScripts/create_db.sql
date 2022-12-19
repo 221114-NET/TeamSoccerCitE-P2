@@ -40,7 +40,7 @@ ALTER TABLE LoginSession ADD CONSTRAINT FK_CustomerId
 ALTER TABLE Product ADD CONSTRAINT FK_CategoryId
     FOREIGN KEY (CategoryId) REFERENCES ProductCategory (CategoryId) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-
+ALTER TABLE Customer ADD CONSTRAINT Default_Image DEFAULT NULL FOR ProfilePic;
 
 -------------------Populating ProductCategory Table----------------------------
 INSERT INTO ProductCategory VALUES (1, 'Shoes'), (2, 'Balls'), (3, 'Jerseys');
