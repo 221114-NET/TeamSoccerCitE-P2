@@ -9,5 +9,6 @@ namespace LogicLayer
     public interface ICustomerService
     {
         Task<Customer> PostCustomer(Customer c);
+        Task<Guid> LoginCustomer(Customer c);
     }
 }

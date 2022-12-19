@@ -35,5 +35,10 @@ namespace ApiLayer.Controllers
         }
 
         // Get User
+        [HttpPut]
+        public async Task<ActionResult<Guid>> LoginCustomer(Customer customer)
+        {
+            return await _iCustomerService.LoginCustomer(customer);
+        }
     }
 }
