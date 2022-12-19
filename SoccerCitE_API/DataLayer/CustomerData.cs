@@ -26,8 +26,8 @@ namespace DataLayer
 
             using SqlConnection connection = new SqlConnection(_connectionString);
             await connection.OpenAsync();
-            string cmdText = "INSERT INTO Customer (email, username, password, profilePic)" +
-                             "VALUES (@email, @username, @password, @image);" +
+            string cmdText = "INSERT INTO Customer (email, username, password)" +
+                             "VALUES (@email, @username, @password);" +
                              "SELECT customerId, email, username, password, profilePic FROM Customer WHERE email = @customerEmail;";
             using SqlCommand cmd = new SqlCommand(cmdText, connection);
 
@@ -38,8 +38,12 @@ namespace DataLayer
             /* 
             TODO If we want to have the user register with a profile picture every time, we will have to give a profile picture in the Logic Layer. 
             Weirdness when passing nulls.
+            > Use default picture
             */ 
-            cmd.Parameters.AddWithValue("@image", newCustomer.ImageData);
+            // if(newCustomer.ImageData is null) {
+            //     cmd.Parameters.AddWithValue("@image", DBNull.Value);    
+            // } else cmd.Parameters.AddWithValue("@image", newCustomer.ImageData);
+            // cmd.Parameters.AddWithValue("@image", newCustomer.ImageData);
 
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
@@ -48,17 +52,17 @@ namespace DataLayer
             string email = reader.GetString(1);
             string username = reader.GetString(2);
             string password = reader.GetString(3);
-            byte[] imageData = (byte[]) reader.GetValue(4);
+            //byte[] imageData = (byte[]) reader.GetValue(4);
 
             await connection.CloseAsync();
 
-            Customer registeredCustomer = new Customer(email, username, password, imageData);
+            Customer registeredCustomer = new Customer(email, username, password, new byte[0]); //imageData
             _logger.LogRegistration(registeredCustomer);
 
             // TODO TMP, These 3 lines save the image that was used in registering the user... testing if we can get our picture back from database
             // MemoryStream ms1 = new MemoryStream(registeredCustomer.ImageData);
             // Image resultImage = Image.FromStream(ms1);
-            // resultImage.Save("../../SoccerCitEConsole/test2.png");
+            // resultImage.Save($"../../SoccerCitEConsole/{Guid.NewGuid()}.png");
 
             return registeredCustomer;
         }
