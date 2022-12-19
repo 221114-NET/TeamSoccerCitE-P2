@@ -53,11 +53,12 @@ namespace DataLayer
             string email = reader.GetString(1);
             string username = reader.GetString(2);
             string password = reader.GetString(3);
-            //byte[] imageData = (byte[]) reader.GetValue(4);
+            byte[] imageData = (byte[]) reader.GetValue(4);
+            //if(imageData.Length == 0) its null
 
             await connection.CloseAsync();
 
-            Customer registeredCustomer = new Customer(email, username, password, new byte[0]); //imageData
+            Customer registeredCustomer = new Customer(email, username, password); //imageData
             _logger.LogRegistration(registeredCustomer);
 
             // TODO TMP, These 3 lines save the image that was used in registering the user... testing if we can get our picture back from database

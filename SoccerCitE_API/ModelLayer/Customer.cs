@@ -10,17 +10,17 @@ namespace ModelLayer
         public string ?Email {get; set;}
         public string ?Username {get; set;}
         public string ?Password {get; set;}
-        public byte[] ?ImageData {get; set;}
+        //public byte[] ?ImageData {get; set;}
         //option 1, base64 string?
         // Different model for user profile
         // Model that will encompass everything in the user profile...
 
         public Customer() {}
-        public Customer(string email, string username, string password, byte[] imageData) {
+        public Customer(string email, string username, string password) { //, byte[] imageData
             this.Email = email;
             this.Username = username;
             this.Password = password;
-            this.ImageData = imageData;
+            //this.ImageData = imageData;
         }
     }
 }
