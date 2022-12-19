@@ -57,20 +57,48 @@ namespace DataLayer
             {
                 byte[] imageData = (byte[])reader[4];
             }
-            //long returnedBytes = /*(byte[])*/ reader.GetBytes(4,0,imageData, 0, 65535);
-            //if(imageData.Length == 0) its null
 
             await connection.CloseAsync();
 
-            Customer registeredCustomer = new Customer(email, username, password); //imageData
+            Customer registeredCustomer = new Customer(email, username, password);
             _logger.LogRegistration(registeredCustomer);
 
-            // TODO TMP, These 3 lines save the image that was used in registering the user... testing if we can get our picture back from database
-            // MemoryStream ms1 = new MemoryStream(registeredCustomer.ImageData);
-            // Image resultImage = Image.FromStream(ms1);
-            // resultImage.Save($"../../SoccerCitEConsole/{Guid.NewGuid()}.png");
-
             return registeredCustomer;
+        }
+
+        public async Task<(Customer,UserProfile)> GetCustomerInfo(Guid sessionId) {
+            int customerId = await GetUserIDFromSessionId(sessionId);
+            Customer customer = new Customer();
+            UserProfile userProfile = new UserProfile();
+            if(customerId > 0) {
+                using(SqlConnection connection = new SqlConnection(_connectionString)) {
+                    string commandText = "SELECT email, username, password, profilePic FROM Customer WHERE CustomerId = @customerId;";
+                    using(SqlCommand command = new SqlCommand(commandText, connection)) {
+                        Task conOpen = connection.OpenAsync();
+                        command.Parameters.AddWithValue("@customerId", customerId);
+                        await conOpen;
+                        try {
+                            SqlDataReader reader = command.ExecuteReader();
+                            await reader.ReadAsync();
+                            customer.Email = reader.GetString(0);
+                            customer.Username = reader.GetString(1);
+                            customer.Password = reader.GetString(2);
+                            if(!reader.IsDBNull(3)) {
+                                userProfile.dbImageData = (byte[])reader[3];
+                            }
+                        } 
+                        catch (Exception e)
+                        {
+                            _logger.ErrorLog(e);
+                        }
+                        finally
+                        {
+                            await connection.CloseAsync();
+                        }
+                    }
+                }
+            }
+            return (customer, userProfile);
         }
 
         public async Task<Guid> LoginCustomer(Customer c)

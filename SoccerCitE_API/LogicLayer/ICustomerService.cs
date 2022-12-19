@@ -11,6 +11,7 @@ namespace LogicLayer
         Task<Customer> PostCustomer(Customer c);
         Task<Guid> LoginCustomer(Customer c);
         Task LogoutCustomer(Guid s);
+        Task<(Customer,UserProfile)> GetCustomerInfo(Guid sessionId);
 
     }
 }

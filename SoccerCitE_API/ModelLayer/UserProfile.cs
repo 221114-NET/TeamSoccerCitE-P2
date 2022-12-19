@@ -9,7 +9,12 @@ namespace ModelLayer
     {
         // 2 fields 
         public byte[] dbImageData {get; set;}
-        public string apiImageData {get; set;}
-        //
+        public string apiImageData {get; set;} // Use this when user wants to set their image
+        
+        public UserProfile() {}
+        public UserProfile(byte[] imageBytes, string base64Info) {
+            this.dbImageData = imageBytes;
+            this.apiImageData = base64Info;
+        }
     }
 }

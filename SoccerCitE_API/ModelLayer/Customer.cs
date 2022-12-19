@@ -20,7 +20,6 @@ namespace ModelLayer
             this.Email = email;
             this.Username = username;
             this.Password = password;
-            //this.ImageData = imageData;
         }
     }
 }
