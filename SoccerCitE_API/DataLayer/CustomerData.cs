@@ -73,9 +73,9 @@ namespace DataLayer
                             await reader.ReadAsync();
                             sessionId = reader.GetGuid(0);
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
-                            
+
                         }
                         finally
                         {
@@ -85,6 +85,31 @@ namespace DataLayer
                 }
             }
             return sessionId;
+        }
+
+        public async Task LogoutCustomer(Guid sessionId)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                using(SqlCommand command = new SqlCommand("DELETE FROM LoginSession WHERE SessionId = @sessionId",connection))
+                {
+                    await connection.OpenAsync();
+                    command.Parameters.AddWithValue("@sessionId", sessionId);
+                    try
+                    {
+                        //Returns number of rows affected if we want to keep track of sucess
+                        await command.ExecuteNonQueryAsync();
+                    }
+                    catch(Exception e)
+                    {
+                        _logger.ErrorLog(e);
+                    }
+                    finally
+                    {
+                        await connection.CloseAsync();
+                    }
+                }
+            }
         }
 
         private async Task<int> GetUserIDFromDB(Customer c)

@@ -26,5 +26,10 @@ namespace LogicLayer
         {
             return await _iCustomerData.LoginCustomer(c);
         }
+
+        public async Task LogoutCustomer(Guid sessionId)
+        {
+            await _iCustomerData.LogoutCustomer(sessionId);   
+        }
     }
 }
