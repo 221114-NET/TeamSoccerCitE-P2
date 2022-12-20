@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Checkboxes</title>
+</head>
+
+<body>
+    <p>Select your items:</p>
+    <label for="c1"> <input type="checkbox" name="item" value="shirt" id="c1">Shirt</label>
+    <label for="c2"><input type="checkbox" name="item" value="ball" id="c2"> Ball</label>
+    <label for="c3"><input type="checkbox" name="item" value="shoes" id="c3">Shoes</label>
+    <p>
+        <button id="btn">Cart</button>
+    </p>
+
+
+    
+
+    <script>
+        const btn = document.querySelector('#btn');
+        btn.addEventListener('click', (event) => {
+            let checkboxes = document.querySelectorAll('input[name="item"]:checked');
+            let values = [];
+            checkboxes.forEach((checkbox) => {
+                values.push(checkbox.value);
+                
+            });
+            //alert(values);
+            window.open("cart.html");
+
+            sessionStorage.setItem("favoriteMovie", values);
+
+
+
+        });    
+    </script>
+
+</body>
+
+</html>
