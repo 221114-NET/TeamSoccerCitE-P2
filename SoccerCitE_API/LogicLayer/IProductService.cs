@@ -10,5 +10,6 @@ namespace LogicLayer
     public interface IProductService
     {
         public Task<List<Product>> GetProductList();
+        public Task CartCheckout(List<Product> cart);
     }
 }

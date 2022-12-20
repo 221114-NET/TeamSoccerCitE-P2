@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using System.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
 using ModelLayer;
@@ -50,6 +51,27 @@ namespace DataLayer
                 }
             }
             return productList;
+        }
+
+        public async Task CartCheckout(List<Product> cart)
+        {
+            using(SqlConnection connection = new SqlConnection(_connectionString)) {
+                string commandText = "UPDATE Product SET Quantity = Quantity - @productQuantity WHERE ProductId = @productId";
+                using(SqlCommand command = new SqlCommand(commandText, connection)) {
+                    try {
+                        await connection.OpenAsync();
+                        command.Parameters.Add("@productQuantity", SqlDbType.Int);
+                        command.Parameters.Add("@productId", SqlDbType.Int);
+                        foreach(Product product in cart) {
+                            command.Parameters["@productQuantity"].Value = product.Quantity;
+                            command.Parameters["@productId"].Value = product.ProductId;
+                            await command.ExecuteNonQueryAsync(); // returns an int, # of affected rows
+                        }
+                    } catch(Exception ex) {
+                        _logger.ErrorLog(ex);
+                    }
+                }
+            }
         }
     }
 }
