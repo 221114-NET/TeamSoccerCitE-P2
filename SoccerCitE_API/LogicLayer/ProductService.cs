@@ -21,5 +21,10 @@ namespace LogicLayer
         {
             return await _iProductData.GetProductList();
         }
+
+        async Task IProductService.CartCheckout(List<Product> cart)
+        {
+            await _iProductData.CartCheckout(cart);
+        }
     }
 }

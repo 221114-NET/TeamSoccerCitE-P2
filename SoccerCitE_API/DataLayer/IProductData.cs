@@ -11,5 +11,6 @@ namespace DataLayer
     public interface IProductData
     {
         public Task<List<Product>> GetProductList();
+        public Task CartCheckout(List<Product> cart);
     }
 }
