@@ -26,7 +26,7 @@ namespace DataLayer
             List<Product> productList = new List<Product>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                using (SqlCommand command = new SqlCommand("SELECT * FROM Product", connection))
+                using (SqlCommand command = new SqlCommand("SELECT ProductId, Name, Description, Price, Quantity, CategoryId, ProductImage FROM Product", connection))
                 {
                     try
                     {
@@ -35,9 +35,17 @@ namespace DataLayer
 
                         while (await sqlProducts.ReadAsync())
                         {
-                            //TODO: Not currently reading image column, because product model does not have image member yet
-                            productList.Add(new Product(sqlProducts.GetInt32(0), sqlProducts.GetString(1), sqlProducts.GetString(2), sqlProducts.GetDouble(3),
-                            sqlProducts.GetInt32(4), (ProductCategory)sqlProducts.GetInt32(5)));
+                            // Create product object (with image) and add it to the list
+                            Product p = new Product(
+                                sqlProducts.GetInt32(0),
+                                sqlProducts.GetString(1),
+                                sqlProducts.GetString(2),
+                                sqlProducts.GetDouble(3),
+                                sqlProducts.GetInt32(4),
+                                (ProductCategory)sqlProducts.GetInt32(5),
+                                (byte[]) sqlProducts[6]
+                            );
+                            productList.Add(p);
                         }
                     }
                     catch (Exception e)
@@ -51,6 +59,34 @@ namespace DataLayer
                 }
             }
             return productList;
+        }
+
+        // TODO This is a temporary solution for adding products with images to the database
+        public async Task<String> PostProduct(Product p)
+        {   
+            string feedback = "Post Product was unsuccessful";
+            using (SqlConnection connection = new SqlConnection(_connectionString)) {
+                string commandText = "INSERT INTO Product (Name, Description, Price, Quantity, CategoryId, ProductImage) VALUES (@name, @description, @price, @quantity, @categoryId, @productImage);";
+                using (SqlCommand command = new SqlCommand(commandText, connection)) {
+                    try {
+                        await connection.OpenAsync();
+                        // Add Parameters
+                        command.Parameters.AddWithValue("@name", p.Name);
+                        command.Parameters.AddWithValue("@description", p.Description);
+                        command.Parameters.AddWithValue("@price", p.Price);
+                        command.Parameters.AddWithValue("@quantity", p.Quantity);
+                        command.Parameters.AddWithValue("@categoryId", (int) p.CategoryId);
+                        command.Parameters.AddWithValue("@productImage", p.ImageData);
+                        
+                        // Execute
+                        await command.ExecuteNonQueryAsync();
+                        feedback = "Post Product was successful";
+                    } catch (Exception ex) {
+                        _logger.ErrorLog(ex);
+                    }
+                    return feedback;
+                }
+            }
         }
 
         public async Task CartCheckout(List<Product> cart)

@@ -12,5 +12,6 @@ namespace DataLayer
     {
         public Task<List<Product>> GetProductList();
         public Task CartCheckout(List<Product> cart);
+        public Task<String> PostProduct(Product p);
     }
 }

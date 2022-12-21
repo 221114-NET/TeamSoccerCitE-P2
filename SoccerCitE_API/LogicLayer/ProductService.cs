@@ -26,5 +26,11 @@ namespace LogicLayer
         {
             await _iProductData.CartCheckout(cart);
         }
+
+        // TODO This is a temporary solution for adding products with images to the database
+        public async Task<String> PostProduct(Product newProduct)
+        {
+            return await _iProductData.PostProduct(newProduct);
+        }
     }
 }

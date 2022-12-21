@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using System.Text.Json.Serialization;
-
-namespace ModelLayer
+namespace ConsoleForProducts
 {
     public enum ProductCategory : int
     {
@@ -13,7 +11,7 @@ namespace ModelLayer
         BALLS, 
         JERSEYS
     }
-    public class Product
+    public class ProductDTO
     {
         public int ProductId{get; set;}
         public string Name{get; set;}
@@ -23,9 +21,8 @@ namespace ModelLayer
         public ProductCategory CategoryId{get; set;}
         public byte[] ImageData{get; set;}
 
-        public Product() {}
-
-        public Product(int productId, string name, string description, double price, int quantity, ProductCategory categoryId, byte[] imageData) {
+        public ProductDTO() {}
+        public ProductDTO(int productId, string name, string description, double price, int quantity, ProductCategory categoryId, byte[] imageData) {
             this.ProductId = productId;
             this.Name = name;
             this.Description = description;
