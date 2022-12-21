@@ -11,5 +11,6 @@ namespace LogicLayer
     {
         public Task<List<Product>> GetProductList();
         public Task CartCheckout(List<Product> cart);
+        public Task<Product> PostProduct(Product p);
     }
 }

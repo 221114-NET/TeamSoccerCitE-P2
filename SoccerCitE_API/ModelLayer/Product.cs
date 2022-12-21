@@ -19,16 +19,17 @@ namespace ModelLayer
         public double Price{get; set;}
         public int Quantity{get; set;}
         public ProductCategory CategoryId{get; set;}
-        // Last property is image, handle that later
+        public byte[] ImageData{get; set;}
 
         public Product() {}
-        public Product(int productId, string name, string description, double price, int quantity, ProductCategory categoryId) {
+        public Product(int productId, string name, string description, double price, int quantity, ProductCategory categoryId, byte[] imageData) {
             this.ProductId = productId;
             this.Name = name;
             this.Description = description;
             this.Price = price;
             this.Quantity = quantity;
             this.CategoryId = categoryId;
+            this.ImageData = imageData;
         }
     }
 }

@@ -26,5 +26,15 @@ namespace ApiLayer.Controllers
         {
             return await _iProductService.GetProductList();
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Product>> PostProduct(Product newProduct) {
+            try {
+                return await _iProductService.PostProduct(newProduct);
+            } catch(Exception ex) {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500);
+            }
+        }
     }
 }

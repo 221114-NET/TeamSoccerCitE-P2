@@ -26,5 +26,10 @@ namespace LogicLayer
         {
             await _iProductData.CartCheckout(cart);
         }
+
+        public async Task<Product> PostProduct(Product newProduct)
+        {
+            return await _iProductData.PostProduct(newProduct);
+        }
     }
 }
