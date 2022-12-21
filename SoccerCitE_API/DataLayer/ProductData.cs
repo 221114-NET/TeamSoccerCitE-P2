@@ -61,14 +61,12 @@ namespace DataLayer
             return productList;
         }
 
-        public async Task<Product> PostProduct(Product p)
+        // TODO This is a temporary solution for adding products with images to the database
+        public async Task<String> PostProduct(Product p)
         {   
-            // Will we get id data?
-            Product newProduct = new Product();
-            int productId = p.ProductId;
+            string feedback = "Post Product was unsuccessful";
             using (SqlConnection connection = new SqlConnection(_connectionString)) {
                 string commandText = "INSERT INTO Product (Name, Description, Price, Quantity, CategoryId, ProductImage) VALUES (@name, @description, @price, @quantity, @categoryId, @productImage);";
-                commandText += "SELECT ProductId, Name, Description, Price, Quantity, CategoryId, ProductImage FROM Product WHERE ProductId = @productId";
                 using (SqlCommand command = new SqlCommand(commandText, connection)) {
                     try {
                         await connection.OpenAsync();
@@ -79,61 +77,16 @@ namespace DataLayer
                         command.Parameters.AddWithValue("@quantity", p.Quantity);
                         command.Parameters.AddWithValue("@categoryId", (int) p.CategoryId);
                         command.Parameters.AddWithValue("@productImage", p.ImageData);
-
-                        command.Parameters.AddWithValue("@productId", productId);
                         
                         // Execute
-                        using(SqlDataReader reader = await command.ExecuteReaderAsync()) {
-                            await reader.ReadAsync();
-                            newProduct = new Product(
-                                reader.GetInt32(0),
-                                reader.GetString(1),
-                                reader.GetString(2),
-                                reader.GetDouble(3),
-                                reader.GetInt32(4),
-                                (ProductCategory)reader.GetInt32(5),
-                                (byte[]) reader[6]
-                            ); 
-                        }
-                        // Do stuff 
+                        await command.ExecuteNonQueryAsync();
+                        feedback = "Post Product was successful";
                     } catch (Exception ex) {
                         _logger.ErrorLog(ex);
                     }
-                    return newProduct;
+                    return feedback;
                 }
             }
-            /*
-            using SqlConnection connection = new SqlConnection(_connectionString);
-            await connection.OpenAsync();
-            string cmdText = "INSERT INTO Customer (email, username, password)" +
-                             "VALUES (@email, @username, @password);" +
-                             "SELECT customerId, email, username, password, profilePic FROM Customer WHERE email = @customerEmail;";
-            using SqlCommand cmd = new SqlCommand(cmdText, connection);
-
-            cmd.Parameters.AddWithValue("@email", newCustomer.Email);
-            cmd.Parameters.AddWithValue("@username", newCustomer.Username);
-            cmd.Parameters.AddWithValue("@password", newCustomer.Password);
-            cmd.Parameters.AddWithValue("@customerEmail", newCustomer.Email);
-
-            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
-
-            await reader.ReadAsync();
-            int id = reader.GetInt32(0);
-            string email = reader.GetString(1);
-            string username = reader.GetString(2);
-            string password = reader.GetString(3);
-            if (!reader.IsDBNull(4))
-            {
-                byte[] imageData = (byte[])reader[4];
-            }
-
-            await connection.CloseAsync();
-
-            Customer registeredCustomer = new Customer(email, username, password);
-            _logger.LogRegistration(registeredCustomer);
-
-            return registeredCustomer;
-        */
         }
 
         public async Task CartCheckout(List<Product> cart)

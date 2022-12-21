@@ -27,8 +27,10 @@ namespace ApiLayer.Controllers
             return await _iProductService.GetProductList();
         }
 
+
+        // TODO This is a temporary solution for adding products with images to the database
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product newProduct) {
+        public async Task<ActionResult<String>> PostProduct(Product newProduct) {
             try {
                 return await _iProductService.PostProduct(newProduct);
             } catch(Exception ex) {

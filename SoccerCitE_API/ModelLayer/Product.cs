@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using System.Text.Json.Serialization;
+
 namespace ModelLayer
 {
     public enum ProductCategory : int
@@ -22,6 +24,7 @@ namespace ModelLayer
         public byte[] ImageData{get; set;}
 
         public Product() {}
+
         public Product(int productId, string name, string description, double price, int quantity, ProductCategory categoryId, byte[] imageData) {
             this.ProductId = productId;
             this.Name = name;
