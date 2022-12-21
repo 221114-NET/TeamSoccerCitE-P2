@@ -26,7 +26,7 @@ namespace DataLayer
             List<Product> productList = new List<Product>();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                using (SqlCommand command = new SqlCommand("SELECT * FROM Product", connection))
+                using (SqlCommand command = new SqlCommand("SELECT ProductId, Name, Description, Price, Quantity, CategoryId, ProductImage FROM Product", connection))
                 {
                     try
                     {
